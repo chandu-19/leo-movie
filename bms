@@ -1,0 +1,73 @@
+#british musem search
+
+import numpy as np
+
+n=int(input("enter the number of nodes"))
+graph=np.zeros([n,n])
+s = 1
+p = 1
+s=int(input("enter the first node: "))
+p=int(input("enter the second node: "))
+while(s!=-1 and p!=-1):
+    graph[s][p]=1
+    graph[p][s]=1
+    s=int(input("enter the first node: "))
+    p=int(input("enter the second node: "))
+
+    print(graph)
+
+    source=int(input("enter the source node: "))
+dest=int(input("enter the dest node: "))
+
+trav=[]
+path=[]
+path.append([source])
+count=0
+k=1
+
+if(count==0):
+    list=[]
+    for i in range(n):
+        if(graph[source][i]==1 and i!=source):
+            list.append(i)
+    trav.append([k,count,source,list])
+    path.append([k,count,source,list])
+    count+=1
+    k+=1
+print(path)
+
+while(len(trav)!=0):
+    for i in trav[0][3]:
+        if(i!=dest):
+            list=[]
+            for j in range(n):
+                if(graph[i][j]==1 and j!=source):
+                    list.append(j)
+            length=trav[0][0]
+            while(length>0):
+                print(list,path[length])
+                if(path[length][2] in list):
+                    list.remove(path[length][2])
+                length=path[length][1]
+            if(len(list)>0):
+                path.append([k,trav[0][0],i,list])
+                trav.append([k,trav[0][0],i,list])
+                k=k+1
+    trav.remove(trav[0])
+
+print(path)
+
+path_main=[]
+n=len(path)-1
+while(n>0):
+    if dest in path[n][3]:
+        d=[]
+        d.append(dest)
+        d.append(path[n][2])
+        length=path[n][1]
+        while(length>0):
+            d.append(path[length][2])
+            length=path[length][1]
+        path_main.append(d)
+    n=n-1
+print(path_main)
